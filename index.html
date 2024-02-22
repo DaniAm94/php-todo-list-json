@@ -25,7 +25,14 @@
 
 <body>
     <div id="root" class="container-sm">
-
+        <header>
+            <h1>ToDo List</h1>
+        </header>
+        <main>
+            <ul class="list-group">
+                <li v-for="task in tasks" :key="task.id" class="list-group-item">{{task.text}}</li>
+            </ul>
+        </main>
     </div>
 
 </body>

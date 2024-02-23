@@ -31,7 +31,8 @@
         <main>
             <ul class="list-group mb-3 ">
                 <li v-for="task in tasks" :key="task.id" class="list-group-item d-flex justify-content-between ">
-                    {{task.text}}
+                    <span role="button" :class="{ 'text-decoration-line-through' : task.done}"
+                        @click="toggleTask(task.id)">{{task.text}}</span>
                     <button @click="deleteTask(task.id)" type="button" class="btn-close" aria-label="Close"></button>
                 </li>
             </ul>

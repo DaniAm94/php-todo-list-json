@@ -1,5 +1,5 @@
 console.log(Vue);
-const endpoint = 'http://localhost/boolean/php-todo-list-json/api/index.php';
+const endpoint = 'http://localhost/boolean/php-todo-list-json/api/';
 const { createApp } = Vue;
 
 const app = createApp({
@@ -10,12 +10,7 @@ const app = createApp({
     }),
     methods: {
         addTask() {
-            const newTask = {
-                id: new Date().toISOString(),
-                text: this.newTaskText,
-                done: false
-            }
-            const data = { 'new-task': newTask };
+            const data = { 'new-task-text': this.newTaskText };
             const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
             axios.post(endpoint, data, config).then(res => {
@@ -23,15 +18,23 @@ const app = createApp({
                 this.newTaskText = '';
             })
         },
-        deleteTask(taskId) {
-            const targetTask = this.tasks.find(task => task.id === taskId);
-            const data = { 'target-task': targetTask };
-            const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-            axios.post(endpoint, data, config).then(res => {
+        toggleTask(id) {
+            // const data = { id };
+            // const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+            // axios.post(`${endpoint}toggle/`, data, config).then(res => {
+            //     this.tasks = res.data;
+            const data = new FormData();
+            data.append('id', id);
+            axios.post(`${endpoint}toggle/`, data).then(res => {
                 this.tasks = res.data;
             })
-            console.log(targetTask);
+        },
+        deleteTask(id) {
+            const data = new FormData();
+            data.append('id', id);
+            axios.post(`${endpoint}delete/`, data).then(res => {
+                this.tasks = res.data;
+            })
         }
     },
     created() {
